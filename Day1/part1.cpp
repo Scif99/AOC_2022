@@ -1,3 +1,9 @@
+#include <fstream>
+#include <iostream>
+#include <numeric>
+#include <string>
+
+
 /*
 For part 1 we can compute the largest sum of calories without storing anything.
 */
@@ -10,7 +16,7 @@ int LargestInventory(const char* input)
 	if (!file)
 	{
 		std::cerr << "Error: couldnt open file\n";
-		return 1;
+		return -1;
 	}
 
 	int local_sum{ 0 }; //track the largest sum of calories seen so far
