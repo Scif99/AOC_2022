@@ -2,11 +2,10 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 /*
-Key numbers from problem
-
-THEM
+* THEM
 - A = Rock	
 - B = Paper
 - C = Scissors
@@ -23,8 +22,9 @@ SCORES
 
 - Loss = 0
 - Draw = 3
-- Win = 6
+- Win = 6	
 */
+
 
 
 enum class Result
@@ -34,10 +34,24 @@ enum class Result
 	LOSE
 };
 
+std::unordered_map<Result, int> ResultScores
+{
+	{Result::WIN, 6},
+	{Result::DRAW, 3},
+	{Result::LOSE, 0}
+};
+
+std::unordered_map<char, int> ShapeScores
+{
+	{'X', 1},
+	{'Y', 2},
+	{'Z', 3}
+};
+
 Result ComputeResult(char elf, char player)
 {
 	//elf chooses rock
-	if (elf == 'A') 
+	if (elf == 'A')
 	{
 		if (player == 'X') return Result::DRAW; //player chooses rock
 		if (player == 'Y') return Result::WIN; //player chooses paper
@@ -62,30 +76,13 @@ Result ComputeResult(char elf, char player)
 
 }
 
-//returns the score associated with the shape that the player chose
-int ShapeScore(char shape)
-{
-	static std::unordered_map<char, int> scores{ {'X', 1}, {'Y', 2}, {'Z', 3} };
-
-	//if(!scores.contains(shape))
-	return scores[shape];
-}
-
-//returns score associated with the result of a round (win/draw/loss)
-int ResultScore(char elf, char player)
-{
-	static std::unordered_map<Result, int> scores{ {Result::WIN, 6}, {Result::DRAW, 3}, {Result::LOSE, 0} };
-
-	return scores[ComputeResult(elf, player)];
-}
-
 int score(const char* input)
 {
-	std::ifstream file{input};
+	std::ifstream file{ input };
 
 	if (!file)
 	{
-		std::cerr<<"ERROR: could not read file\n";
+		std::cerr << "ERROR: could not read file\n";
 		return -1;
 	}
 
@@ -97,9 +94,9 @@ int score(const char* input)
 
 		if (line.empty()) break;
 
-		const char elf{ line[0] };
-		const char player{ line[2] };
-		int round_score = ShapeScore(player) + ResultScore(elf, player);
+		char elf{ line[0] };
+		char player{ line[2] };
+		int round_score = ShapeScores[player] + ResultScores[ComputeResult(elf, player)];
 		total_score += round_score;
 	}
 	return total_score;
@@ -107,7 +104,5 @@ int score(const char* input)
 
 int main()
 {
-
-	std::cout<<score("day2.txt");
-
+	std::cout << score("day2.txt");
 }
