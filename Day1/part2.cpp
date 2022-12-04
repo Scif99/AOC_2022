@@ -1,3 +1,9 @@
+#include <fstream>
+#include <iostream>
+#include <numeric>
+#include <string>
+#include <vector>
+
 /*
 For part 2 we can store each elf's total calory count in a vector.
 Then we can sort the vector in decreasing order and output the sum of first 3 elements;
